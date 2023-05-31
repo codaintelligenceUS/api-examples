@@ -1,6 +1,8 @@
 import json
 import requests
 
+from time import sleep
+
 # Load dotenv variables
 from dotenv import dotenv_values
 
@@ -56,7 +58,7 @@ def create_registration():
 def get_cloud_scanner_id(tenant_id):
     """Retrieves the ID of the default cloud scanner"""
 
-tenant_id_headers = {**headers, "FootprintTenantId": str(tenant_id)}
+    tenant_id_headers = {**headers, "FootprintTenantId": str(tenant_id)}
     print("📡 Retrieving cloud scanner...")
     scanners_response = requests.get(
         f"{BASE_URL}/api/console/scanSurface/scanners/", headers=tenant_id_headers
@@ -94,14 +96,44 @@ def start_scan(tenant_id):
 
 def wait_for_scan_finish(tenant_id):
     """
-    Polls the server until thesc
-    an is done"""
+    Polls the server until the scan finishes
+    """
+    is_scan_finished = False
+    tenant_id_headers = {**headers, "FootprintTenantId": str(tenant_id)}
+
+    while not is_scan_finished:
+        print("🔍 Checking if scan is done...")
+        response = requests.get(
+            f"{BASE_URL}/api/console/status/scan/", headers=tenant_id_headers
+        )
+        if len(response.json()["areaScanJobs"]) == 0:
+            print("🎉 Scan finished!")
+            is_scan_finished = True
+        print("⌚ Scan still running")
+        sleep(5)
 
 
+def get_report(tenant_id):
+    """Retrieves the Technical Report result"""
+    tenant_id_headers = {**headers, "FootprintTenantId": str(tenant_id)}
 
-
+    print("📅 Retrieving report date....")
+    report_date = requests.get(
+        f"{BASE_URL}/api/console/report/snapshot/", headers=tenant_id_headers
+    ).json()[0]
+    print(f"📊 Retrieving report {report_date} as json")
+    report = requests.get(
+        f"{BASE_URL}/api/console/report/snapshot/{report_date}/",
+        headers=tenant_id_headers,
+    ).json()
+    print("📄 Writing report file...")
+    with open("report.json", "w") as f:
+        json.dump(report, f)
+    print("✅ Done")
 
 
 if __name__ == "__main__":
-    tenant_id = 536  # create_registration()["meta"]["tenantId"]
+    tenant_id = create_registration()["meta"]["tenantId"]
     start_scan(tenant_id)
+    wait_for_scan_finish(tenant_id)
+    get_report(tenant_id)
