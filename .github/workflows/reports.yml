@@ -1,0 +1,30 @@
+name: "📈 Reports Generation"
+
+on:
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+jobs:
+  reports-generation:
+    name: Report Generation
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11.7'
+
+      - name: 📦 Install dependencies
+        run: pip3 install -r requirements.txt
+
+      - name: 📈 Trigger reports
+        env:
+          TENANTS_TO_RUN_ON: ${{ secrets.TENANTS_TO_RUN_ON }}
+          TASKS_TO_START: ${{ secrets.TASKS_TO_START }}
+          FOOTPRINT_API_KEY: ${{ secrets.FOOTPRINT_API_KEY }}
+          FOOTPRINT_DOMAIN: ${{ secrets.FOOTPRINT_DOMAIN }}
+        run: cd utility-scripts/scheduler-trigger/ && python scheduler-trigger.py
