@@ -13,7 +13,7 @@ from dotenv import dotenv_values
 
 config = dotenv_values(".env")
 BASE_URL = f'https://{config["FOOTPRINT_DOMAIN"]}'
-WAIT_TIMEOUT_SECS = 30
+WAIT_TIMEOUT_SECS = 10
 
 print(f"🔧 Config: {config}")
 
@@ -30,7 +30,7 @@ def delete_agent(agent_id: str, tenant_id: str):
     }
 
     response = requests.post(
-        f"{BASE_URL}/api/console/agent/{agent_id}/uninstall?flushResults=true",
+        f"{BASE_URL}/api/console/agent/{agent_id}/uninstall/?flushResults=true",
         headers=headers,
     )
 
