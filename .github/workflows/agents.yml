@@ -1,13 +1,13 @@
-name: "📈 Reports Generation"
+name: "👓 Agents"
 
 on:
   schedule:
-    - cron: "0 3 * * *"
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 jobs:
-  reports-generation:
-    name: Report Generation
+  agents:
+    name: Agents
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout
@@ -16,15 +16,14 @@ jobs:
       - name: 🐍 Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11.7'
+          python-version: "3.11.7"
 
       - name: 📦 Install dependencies
         run: pip3 install -r requirements.txt
 
-      - name: 📈 Trigger reports
+      - name: 🏷️ Update stuff
         env:
-          TENANTS_TO_RUN_ON: ${{ secrets.TENANTS_TO_RUN_ON }}
-          TASKS_TO_START: ${{ secrets.TASKS_TO_START }}
           FOOTPRINT_API_KEY: ${{ secrets.FOOTPRINT_API_KEY }}
           FOOTPRINT_DOMAIN: ${{ secrets.FOOTPRINT_DOMAIN }}
-        run: cd utility-scripts/scheduler-trigger/ && python scheduler-trigger.py
+          FOOTPRINT_TENANT_ID: ${{ secrets.FOOTPRINT_TENANT_ID }}
+        run: cd utility-scripts/agents-tagger/ && python agents-tagger.py

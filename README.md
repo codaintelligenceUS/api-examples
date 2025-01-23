@@ -52,12 +52,14 @@ defined:
 > Footprint instance.
 > You can obtain an API key from your profile page.
 
-The scripts in the `api-flow-example/` folder also assume these variables are defined:
+The scripts in the `api-flow-example/` folder also may assume other
+variables are defined, such as:
 
 - `FOOTPRINT_CO_MANAGED_CLIENT_NAME` - The name of your co-managed client
 - `FOOTPRINT_CO_MANAGED_CLIENT_EMAIL` - The email address to use for the initial
   account
 - `FOOTPRINT_SCAN_TARGET` - URL or IP address to scan
+- `FOOTPRINT_TENANT_ID` - Tenant ID to perform actions on
 
 You can place these variables in a `.env` file next to the script.
 An example dotenv file with dummy values is included in the root of the
