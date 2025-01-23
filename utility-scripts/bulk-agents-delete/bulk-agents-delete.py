@@ -12,8 +12,8 @@ import requests
 from dotenv import dotenv_values
 
 config = dotenv_values(".env")
-BASE_URL = f'https://{config["FOOTPRINT_DOMAIN"]}'
-WAIT_TIMEOUT_SECS = 10
+BASE_URL = f"https://{config['FOOTPRINT_DOMAIN']}"
+WAIT_TIMEOUT_SECS = 20
 
 print(f"🔧 Config: {config}")
 
