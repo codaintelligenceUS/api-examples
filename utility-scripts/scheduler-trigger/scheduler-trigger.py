@@ -13,7 +13,7 @@ from dotenv import dotenv_values
 config = {**dotenv_values(".env"), **os.environ}
 BASE_URL = f'https://{config.get( "FOOTPRINT_DOMAIN", "")}'
 FOOTPRINT_API_KEY = config.get("FOOTPRINT_API_KEY", "")
-TENANTS_TO_RUN_ON = config.get("TENANTS_TO_RUN_ON", "").split(",")
+ENVIRONMENTS_TO_RUN_ON = config.get("TENANTS_TO_RUN_ON", "").split(",")
 TASKS_TO_START = config.get("TASKS_TO_START", "").split(",")
 
 print(f"🔧 Config: {config}")

@@ -10,11 +10,13 @@ Check the main `README.md` file for prerequisites.
 
 This script will require the following environment variables to be set:
 
-* `TENANTS_TO_RUN_ON` - comma-separated list of tenants to run on
-  * For example - `TENANTS_TO_RUN_ON=1,2,3`
-* `TASKS_TO_START` - comma-separated list of task names to run
-  * These can be retrieved from the scheduler listing on the tenant
-  * For example - `TASKS_TO_START=Remediation Report Generation,Contextual Risk Scoring Report Generation`
+- `SCANNER_ID` - the ID of the scanner to run the tasks on.
+  - For example - `SCANNER-ID=14212`
+- `TENANTS_TO_RUN_ON` - comma-separated list of tenants to run on
+  - For example - `TENANTS_TO_RUN_ON=1,2,3`
+- `TASKS_TO_START` - comma-separated list of task names to run
+  - These can be retrieved from the scheduler listing on the tenant
+  - For example - `TASKS_TO_START=Remediation Report Generation,Contextual Risk Scoring Report Generation`
 
 ## 🏃 Running the script
 
